@@ -1,0 +1,7 @@
+/* Le canvas 3D occupe tout l'écran, fixé derrière le contenu */
+.wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none; /* ne bloque pas les clics sur le contenu */
+}
