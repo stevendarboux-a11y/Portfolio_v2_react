@@ -1,0 +1,47 @@
+.glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Le cercle est dessiné par ::before pour pouvoir changer sa taille
+   sans toucher au "transform" utilisé par le JavaScript */
+.glow::before {
+  content: "";
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  left: -17px;
+  top: -17px;
+  border-radius: 50%;
+  border: 1px solid rgba(229, 228, 226, 0.5);
+  box-shadow:
+    0 0 18px color-mix(in srgb, var(--accent) 35%, transparent),
+    inset 0 0 10px color-mix(in srgb, var(--accent-2) 15%, transparent);
+  transition:
+    width 0.3s var(--ease-out),
+    height 0.3s var(--ease-out),
+    left 0.3s var(--ease-out),
+    top 0.3s var(--ease-out),
+    border-color 0.3s,
+    background-color 0.3s;
+}
+
+.active::before {
+  width: 60px;
+  height: 60px;
+  left: -30px;
+  top: -30px;
+  border-color: var(--accent-2);
+  background-color: color-mix(in srgb, var(--accent-2) 6%, transparent);
+}
+
+@media (pointer: coarse) {
+  .glow {
+    display: none;
+  }
+}

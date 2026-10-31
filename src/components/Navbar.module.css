@@ -1,0 +1,227 @@
+.header {
+  position: fixed;
+  top: 1rem;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0 1rem;
+}
+
+.navbar {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0.75rem 0.6rem 1.25rem;
+  border-radius: 999px;
+  background: rgba(10, 12, 22, 0.6);
+}
+
+/* ---------- Logo ---------- */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  color: var(--platinum);
+}
+
+/* Petite planète animée à côté des initiales */
+.logoOrb {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff, #a9adb8 45%, #3a3d4a 100%);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.logoOrb::after {
+  content: "";
+  position: absolute;
+  inset: -5px -8px;
+  border: 1px solid var(--accent-2);
+  border-radius: 50%;
+  transform: rotate(-20deg) scaleY(0.35);
+  opacity: 0.8;
+}
+
+.logoSuffix {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--accent-2);
+}
+
+/* ---------- Liens ---------- */
+.links {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+}
+
+.link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.95rem;
+  transition: color 0.25s;
+}
+
+.link:hover,
+.active {
+  color: var(--text);
+}
+
+/* La pastille de la page active (animée par framer-motion) */
+.activePill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  box-shadow:
+    0 0 20px -4px color-mix(in srgb, var(--accent) 60%, transparent),
+    inset 0 0 12px color-mix(in srgb, var(--accent-2) 12%, transparent);
+}
+
+.code {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent-2);
+  opacity: 0.8;
+}
+
+.kbd {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  padding: 0 0.35rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-strong);
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.link:hover .kbd {
+  opacity: 1;
+}
+
+/* ---------- Statut ---------- */
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--platinum-dim);
+  border: 1px solid var(--border);
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4dffb5;
+  box-shadow: 0 0 10px #4dffb5;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* ---------- Bouton burger (mobile uniquement) ---------- */
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+}
+
+.burger span {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  margin: 0 auto;
+  background: var(--platinum);
+  transition: transform 0.3s var(--ease-out);
+}
+
+/* Les 2 traits se croisent pour former un X */
+.burgerOpen span:first-child {
+  transform: translateY(3.75px) rotate(45deg);
+}
+.burgerOpen span:last-child {
+  transform: translateY(-3.75px) rotate(-45deg);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+  .status {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .burger {
+    display: flex;
+  }
+
+  /* Le menu devient un panneau déroulant sous la barre */
+  .links {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 1rem;
+    right: 1rem;
+    flex-direction: column;
+    padding: 0.75rem;
+    border-radius: var(--radius);
+    background: var(--surface-strong);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition:
+      opacity 0.3s,
+      transform 0.3s var(--ease-out),
+      visibility 0.3s;
+  }
+
+  .linksOpen {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .link {
+    padding: 0.9rem 1rem;
+    font-size: 1.05rem;
+  }
+
+  .kbd {
+    display: none;
+  }
+}

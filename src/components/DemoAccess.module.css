@@ -1,0 +1,100 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  border: 1px dashed color-mix(in srgb, var(--accent-2) 35%, transparent);
+  background: color-mix(in srgb, var(--accent-2) 5%, transparent);
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+}
+
+/* Petit voyant vert "en ligne" */
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4dffb5;
+  box-shadow: 0 0 8px #4dffb5;
+}
+
+.account {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.role {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--platinum);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.row dt {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.row dd {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.row code {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.copy {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--platinum-dim);
+  cursor: pointer;
+  transition:
+    color 0.25s,
+    border-color 0.25s;
+}
+
+.copy svg {
+  width: 14px;
+  height: 14px;
+}
+
+.copy:hover {
+  color: var(--accent-2);
+  border-color: var(--accent-2);
+}
+
+.copied {
+  color: #4dffb5;
+  border-color: #4dffb5;
+}

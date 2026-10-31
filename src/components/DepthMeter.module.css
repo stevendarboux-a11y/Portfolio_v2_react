@@ -1,0 +1,73 @@
+.meter {
+  position: fixed;
+  left: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 50;
+  display: flex;
+  align-items: stretch;
+  gap: 0.75rem;
+  pointer-events: none;
+  font-family: var(--font-mono);
+}
+
+/* Jauge verticale : se remplit de haut en bas avec le scroll */
+.track {
+  position: relative;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--border-strong);
+  overflow: hidden;
+}
+
+.bar {
+  position: absolute;
+  inset: 0;
+  transform-origin: top;
+  transform: scaleY(0);
+  background: linear-gradient(var(--accent-2), var(--accent));
+  box-shadow: 0 0 10px var(--accent-2);
+}
+
+/* Texte écrit verticalement (de bas en haut) : le compteur reste
+   fin et tient dans la marge, sans recouvrir le contenu */
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.label {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.name {
+  font-size: 0.78rem;
+  color: var(--accent-2);
+  margin-block-end: 0.6rem; /* "bas" logique : fonctionne aussi en écriture verticale */
+  animation: appear 0.8s var(--ease-out);
+}
+
+.value {
+  font-size: 0.78rem;
+  color: var(--platinum);
+  font-variant-numeric: tabular-nums; /* chiffres de même largeur : ça ne "tremble" pas */
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    letter-spacing: 0.4em;
+  }
+}
+
+/* Quand la marge est trop étroite, on le masque pour ne pas gêner la lecture */
+@media (max-width: 1340px) {
+  .meter {
+    display: none;
+  }
+}
