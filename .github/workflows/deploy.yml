@@ -1,0 +1,67 @@
+# ============================================================
+#  DÉPLOIEMENT AUTOMATIQUE SUR GITHUB PAGES
+#  À chaque push sur la branche main, GitHub :
+#  1. récupère le code,
+#  2. installe les dépendances et lance "npm run build",
+#  3. publie le dossier dist/ sur GitHub Pages.
+#  Suivi des déploiements : onglet "Actions" du dépôt.
+# ============================================================
+
+name: Déploiement GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Permet aussi de relancer le déploiement à la main depuis l'onglet Actions
+  workflow_dispatch:
+
+# Droits nécessaires pour publier sur GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Si deux pushs arrivent coup sur coup, on n'en déploie qu'un à la fois
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  # --- Étape 1 : fabriquer le site ---
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22 # Vite 8 demande Node 20.19+ ou 22.12+
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci # comme "npm install", mais respecte exactement package-lock.json
+
+      - name: Construire le site
+        run: npm run build
+
+      - name: Préparer GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Envoyer le dossier dist/
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  # --- Étape 2 : mettre le site en ligne ---
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publier sur GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
