@@ -1,0 +1,289 @@
+/* ---------- Présentation ---------- */
+.intro {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.avatarColumn {
+  display: flex;
+  justify-content: center;
+}
+
+.avatar {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  display: grid;
+  place-items: center;
+}
+
+.photo,
+.initials {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow:
+    0 0 0 1px var(--border-strong),
+    0 0 60px -10px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.initials {
+  display: grid;
+  place-items: center;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #05060a;
+  background: radial-gradient(circle at 30% 30%, #fff, #c9ccd6 40%, #6d7282 100%);
+}
+
+/* Anneaux elliptiques qui tournent autour de l'avatar */
+.orbit {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--accent-2) 35%, transparent);
+  transform: rotateX(70deg);
+  animation: orbit 12s linear infinite;
+}
+
+/* Petit satellite posé sur l'anneau */
+.orbit::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-2);
+  box-shadow: 0 0 12px var(--accent-2);
+}
+
+.orbitSlow {
+  inset: -24px;
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  animation-duration: 20s;
+  animation-direction: reverse;
+}
+
+.orbitSlow::after {
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+}
+
+@keyframes orbit {
+  from {
+    transform: rotateX(70deg) rotateZ(0deg);
+  }
+  to {
+    transform: rotateX(70deg) rotateZ(360deg);
+  }
+}
+
+.bio {
+  padding: 2rem;
+}
+
+.paragraph {
+  margin-top: 1rem;
+  color: var(--text);
+  opacity: 0.88;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.fact dt {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+}
+
+.fact dd {
+  margin-top: 0.25rem;
+  color: var(--platinum);
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* ---------- Sections ---------- */
+.section {
+  margin-top: 6rem;
+}
+
+.sectionTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 600;
+  color: var(--platinum);
+  margin-bottom: 2rem;
+}
+
+/* ---------- Compétences ---------- */
+.skillsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.skillCard {
+  position: relative;
+  height: 100%;
+  padding: 1.75rem;
+  transition:
+    transform 0.4s var(--ease-out),
+    border-color 0.3s;
+}
+
+.skillCard:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.skillIndex {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: rgba(229, 228, 226, 0.08);
+}
+
+.skillCard h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: var(--accent-2);
+}
+
+.skillCard ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  list-style: none;
+}
+
+.skillCard li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text);
+}
+
+/* Petit losange devant chaque compétence */
+.skillCard li::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  transform: rotate(45deg);
+  background: var(--platinum-dim);
+  flex-shrink: 0;
+}
+
+/* ---------- Frise chronologique ---------- */
+.timeline {
+  position: relative;
+  list-style: none;
+  padding-left: 2.5rem;
+}
+
+/* La ligne verticale lumineuse */
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 2px;
+  background: linear-gradient(var(--accent-2), var(--accent), transparent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent-2) 50%, transparent);
+}
+
+.step {
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+
+.node {
+  position: absolute;
+  left: calc(-2.5rem + 1px);
+  top: 1.6rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--accent-2);
+  box-shadow: 0 0 14px var(--accent-2);
+}
+
+.nodeExperience {
+  border-radius: 2px;
+  transform: rotate(45deg);
+  border-color: var(--accent);
+  box-shadow: 0 0 14px var(--accent);
+}
+
+.stepCard {
+  padding: 1.5rem;
+  transition: border-color 0.3s;
+}
+
+.stepCard:hover {
+  border-color: var(--border-strong);
+}
+
+.period {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-2);
+}
+
+.stepCard h3 {
+  margin-top: 0.4rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--platinum);
+}
+
+.place {
+  color: var(--platinum-dim);
+  font-size: 0.92rem;
+}
+
+.stepDescription {
+  margin-top: 0.6rem;
+  color: var(--muted);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .intro {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .facts {
+    grid-template-columns: 1fr;
+  }
+}

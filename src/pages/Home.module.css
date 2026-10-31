@@ -1,0 +1,144 @@
+.hero {
+  min-height: calc(100vh - 11rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 640px;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  align-self: flex-start;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent-2) 25%, transparent);
+  background: color-mix(in srgb, var(--accent-2) 5%, transparent);
+  font-size: 0.68rem;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4dffb5;
+  box-shadow: 0 0 10px #4dffb5;
+}
+
+.greeting {
+  margin-top: 2rem;
+  color: var(--platinum-dim);
+  font-size: 1.15rem;
+}
+
+.name {
+  font-size: clamp(3.2rem, 10vw, 6.5rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  margin-top: 0.25rem;
+  /* Lueur légère derrière le texte */
+  filter: drop-shadow(0 0 30px color-mix(in srgb, var(--accent) 25%, transparent));
+}
+
+.role {
+  margin-top: 1.25rem;
+  font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+  font-weight: 400;
+  color: var(--accent-2);
+  min-height: 1.6em; /* évite que la page "saute" pendant l'effet machine à écrire */
+}
+
+.tagline {
+  margin-top: 1.25rem;
+  max-width: 520px;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2.25rem;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  margin-top: 3.5rem;
+  list-style: none;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  border-left: 1px solid var(--border-strong);
+}
+
+.statValue {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--platinum);
+}
+
+.statLabel {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+/* Petite "souris" animée qui invite à défiler */
+.scrollHint {
+  display: flex;
+  justify-content: center;
+}
+
+.scrollHint span {
+  position: relative;
+  width: 24px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-strong);
+}
+
+.scrollHint span::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  width: 3px;
+  height: 7px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: var(--accent-2);
+  animation: scroll 1.8s ease-in-out infinite;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Sur mobile la planète est au-dessus : on pousse le texte vers le bas */
+  .hero {
+    justify-content: flex-end;
+    padding-top: 12rem;
+  }
+
+  .stats {
+    gap: 1.5rem;
+  }
+}

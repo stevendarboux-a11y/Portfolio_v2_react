@@ -1,0 +1,317 @@
+/* ============================================================
+   STYLES GLOBAUX
+   - Les variables (:root) = la "charte graphique" du site.
+     Change une couleur ici et elle change partout.
+   - Les classes globales (.btn, .glass, .hud-label...) sont
+     réutilisées dans plusieurs pages. Le reste est dans les
+     fichiers *.module.css propres à chaque composant.
+   ============================================================ */
+
+:root {
+  /* Fonds : un noir bleuté, plus profond qu'un noir pur */
+  --bg: #03040a;
+  --surface: rgba(14, 16, 28, 0.55);
+  --surface-strong: rgba(18, 20, 34, 0.8);
+
+  /* Platine : la couleur "métal précieux" du site */
+  --platinum: #e5e4e2;
+  --platinum-dim: #a9adb8;
+
+  /* Texte */
+  --text: #e8e9ee;
+  --muted: #8b90a0;
+
+  /* Accents "nébuleuse" */
+  --accent: #8f7cff; /* violet */
+  --accent-2: #6fe3ff; /* cyan */
+
+  --border: rgba(229, 228, 226, 0.1);
+  --border-strong: rgba(229, 228, 226, 0.22);
+
+  --radius: 20px;
+  --font-body: "Space Grotesk", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Quand on change d'univers, les couleurs glissent en douceur
+     au lieu de changer d'un coup (voir @property plus bas) */
+  transition:
+    --accent 1.2s ease,
+    --accent-2 1.2s ease,
+    --bg 1.2s ease;
+}
+
+/* ---------- Couleurs de chaque univers ----------
+   App.jsx écrit l'univers actuel sur la balise <html> :
+   <html data-universe="projects">. Ces règles remplacent alors
+   les couleurs d'accent. Elles doivent rester identiques à
+   celles de src/data/universes.js (utilisées par la 3D). */
+[data-universe="projects"] {
+  --bg: #020a0a;
+  --accent: #3dffb0;
+  --accent-2: #5ce1ff;
+}
+
+[data-universe="about"] {
+  --bg: #0a0603;
+  --accent: #ff9a3d;
+  --accent-2: #ffd98a;
+}
+
+[data-universe="contact"] {
+  --bg: #08030a;
+  --accent: #ff5ccf;
+  --accent-2: #b78cff;
+}
+
+/* Normalement, une variable CSS ne peut pas être animée (le navigateur
+   ne sait pas que c'est une couleur). @property le lui dit : la
+   "transition" ci-dessus peut alors faire un vrai fondu de couleur. */
+@property --accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #8f7cff;
+}
+
+@property --accent-2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #6fe3ff;
+}
+
+@property --bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #03040a;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Contour visible uniquement à la navigation clavier (accessibilité) */
+:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Barre de défilement discrète */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--accent), var(--accent-2));
+  border-radius: 8px;
+}
+
+/* ---------- Mise en page ---------- */
+
+/* Conteneur commun à toutes les pages (voir PageTransition.jsx) */
+.page {
+  position: relative;
+  z-index: 1; /* au-dessus de la scène 3D */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8rem 1.5rem 3rem;
+  min-height: 100vh;
+}
+
+/* Assombrit les bords de l'écran pour donner de la profondeur
+   et garder le texte lisible par-dessus la 3D */
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 40%, color-mix(in srgb, var(--bg) 75%, transparent) 100%),
+    linear-gradient(to bottom, color-mix(in srgb, var(--bg) 50%, transparent), transparent 20%, transparent 80%, color-mix(in srgb, var(--bg) 60%, transparent));
+}
+
+/* ---------- Composants réutilisables ---------- */
+
+/* Panneau "verre dépoli" */
+.glass {
+  background: var(--surface);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* Petite étiquette façon interface de vaisseau : "02 // PROJETS" */
+.hud-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+}
+
+/* Texte au dégradé platine avec un reflet qui glisse */
+.gradient-text {
+  background: linear-gradient(
+    110deg,
+    #ffffff 0%,
+    #c9ccd6 25%,
+    #8e94a6 45%,
+    #f4f4f6 60%,
+    #a6abb8 80%,
+    #ffffff 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 8s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -250% 0;
+  }
+}
+
+/* Boutons */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font: 500 0.95rem var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    transform 0.3s var(--ease-out),
+    box-shadow 0.3s var(--ease-out),
+    border-color 0.3s,
+    background-color 0.3s;
+}
+
+.btn svg {
+  width: 1.1em;
+  height: 1.1em;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:hover svg {
+  transform: translateX(3px);
+}
+
+.btn-primary {
+  color: #05060a;
+  background: linear-gradient(120deg, #f6f6f8, #bfc3cf 50%, #f6f6f8);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.25),
+    0 10px 40px -10px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+/* Reflet lumineux qui traverse le bouton au survol */
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.8) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.7s var(--ease-out);
+}
+
+.btn-primary:hover::after {
+  transform: translateX(120%);
+}
+
+.btn-primary:hover {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.4),
+    0 14px 50px -10px color-mix(in srgb, var(--accent-2) 80%, transparent);
+}
+
+.btn-ghost {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--border-strong);
+}
+
+.btn-ghost:hover {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 30px -8px var(--accent-2);
+}
+
+/* Étiquette de technologie (HTML, CSS, React...) */
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--platinum);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+/* Texte lu par les lecteurs d'écran mais invisible à l'écran */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Si l'utilisateur a demandé moins d'animations dans son système,
+   on les coupe (accessibilité) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
